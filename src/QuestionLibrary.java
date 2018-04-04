@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class QuestionLibrary
 {
-	public static final String PATTERN = "[0-9\.]+ [0-9\.]+";
+	public static final String SEPARATOR = " ";
 
 	protected ArrayList<Question> library;
 	
@@ -23,7 +23,7 @@ public class QuestionLibrary
 		String line;
 		String [] parts;
 		while (line = reader.readLine()) {
-			if (line.matches(QuestionLibrary.PATTERN)) {
+			if (line.matches(QuestionLibrary.SEPARATOR)) {
 				parts = line.split(QuestionLibrary.PATTERN);
 				
 				Double a = new Double(parts[0]);
