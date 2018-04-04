@@ -4,9 +4,9 @@ import java.lang.String;
 public class TRI {
     public static final String QUESTIONS_PATH = "../data/questoes.txt";
 
-    public static double chance(double theta, double ai, double bi)
+    public static double chance(double theta, double a, double b)
     {
-        return Math.pow(Math.E, ai * (theta - bi)) / 1.0 + Math.pow(Math.E, ai * (theta - bi));
+        return (Math.pow(Math.E, a * (theta - b)) / (1.0 + Math.pow(Math.E, (a * (theta - bi)))));
     }
 	
     public static void main(String [] args)
