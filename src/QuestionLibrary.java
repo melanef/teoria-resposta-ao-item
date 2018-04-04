@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.lang.Double;
+import java.lang.Integer;
 import java.lang.String;
 import java.util.ArrayList;
 
@@ -35,4 +36,14 @@ public class QuestionLibrary
 		
 		return newLibrary;
 	}
+	
+	public Question getQuestion(integer id)
+	{
+		return this.library.get(id).clone();
+	}
+    
+    public Question getQuestion(Integer id)
+    {
+        return this.getQuestion(id.intValue());
+    }
 }
