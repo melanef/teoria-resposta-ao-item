@@ -37,4 +37,20 @@ public class Exam
             }
         }
     }
+                                   
+    public int tryCandidate(Candidate candidate)
+    {
+        int score = 0;
+        
+        for (int i = 0; i < this.questions_quantity; i++) {
+            Question current = this.question.get(i);
+            double chance = TRI.chance(candidate.getTheta(), current.getA(), current.getB());
+            double event = ThreadLocalRandom.current().nextDouble(0.0, 1.0);
+            if (event <= chance) {
+                score++;
+            }
+        }
+        
+        return score;
+    }
 }
