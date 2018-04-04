@@ -1,4 +1,6 @@
-public class Question
+import java.lang.Cloneable;
+
+public class Question implements Cloneable
 {
 	protected double a;
 	protected double b;
