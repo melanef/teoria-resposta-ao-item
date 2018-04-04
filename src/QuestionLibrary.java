@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class QuestionLibrary
 {
-	public static final PATTERN = "[0-9\.]+ [0-9\.]+";
+	public static final String PATTERN = "[0-9\.]+ [0-9\.]+";
 
 	protected ArrayList<Question> library;
 	
