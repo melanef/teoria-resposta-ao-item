@@ -46,4 +46,9 @@ public class QuestionLibrary
     {
         return this.getQuestion(id.intValue());
     }
+    
+    public int size()
+    {
+        return this.library.size();
+    }
 }
