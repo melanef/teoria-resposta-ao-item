@@ -27,10 +27,10 @@ public class QuestionLibrary
         while (line = reader.readLine()) {
             if (line.matches(QuestionLibrary.PATTERN)) {
                 parts = line.split(QuestionLibrary.SEPARATOR);
-				
-                Double a = new Double(parts[0]);
+
+				Double a = new Double(parts[0]);
                 Double b = new Double(parts[1]);
-				
+
                 newLibrary.add(new Question(a.doubleValue(), b.doubleValue()));
             }
         }
