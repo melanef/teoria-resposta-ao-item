@@ -19,6 +19,13 @@ public class Exam
 	
 	public void fillQuestions(QuestionLibrary library)
 	{
+        if (this.library.size() == this.questions_quantity) {
+            for (int i = 0; i < this.questions_quantity; i++) {
+                this.questions.add(library.getQuestion(new Integer(i));
+                this.question_ids.add(new Integer(i));
+            }
+        }
+        
 		while (this.questions.size() < this.questions_quantity)
 			Integer current_question_id = new Integer(
 				ThreadLocalRandom.current().nextInt(0, library.size() + 1)
