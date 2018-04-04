@@ -39,7 +39,7 @@ public class QuestionLibrary
 	
 	public Question getQuestion(integer id)
 	{
-		return this.library.get(id).clone();
+		return (Question) this.library.get(id).clone();
 	}
     
     public Question getQuestion(Integer id)
