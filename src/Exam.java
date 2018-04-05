@@ -1,4 +1,6 @@
+import java.lang.Integer;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.ArrayList;
 
 public class Exam
 {
