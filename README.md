@@ -3,9 +3,11 @@ Projeto Acadêmico de Introdução à Estatística sobre Teoria de Resposta ao I
 
 ## To Do List
 
+- Compilar
+  - Sério, não compilei ainda. Acredito que vá dar mil erros. Então se alguém puder compilar, corrigir e colocar aqui, seria top.
+  - Até aqui, o código não faz nada objetivamente. Então talvez seja legal fazer o main imprimir o score dos candidatos para as provas criadas, que tal?
 - Parte 1
   - Selecionando o melhor aluno
-    - Corrigir método tryCandidate da classe Exam: retorno deve ser a divisão entre o score e a quantidade de questões
     - Criar rotina para aplicar a mesma prova n vezes para um determinado candidato
   - Selecionando a melhor prova
     - Para a melhor prova, imagina-se que ela seja composta pelas questões com maior probabilidade de favorecer o aluno de theta maior, portanto talvez devemos criar um método na classe Question que compare dois alunos o quanto essa questão favorece o aluno a em relação ao aluno b?
