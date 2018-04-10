@@ -16,3 +16,12 @@ Projeto Acadêmico de Introdução à Estatística sobre Teoria de Resposta ao I
   - Intervalo de confian ̧ca - Habilidade do Aluno
   - Intervalo de confiança - t-student
 - Relatório
+
+## O que foi feito
+
+- Classes:
+  - Candidato (Candidate) - entidade do candidato/aluno avaliado; contém o aspecto theta
+  - Questão (Question) - entidade da questão; contém os indicadores a (parâmetro de discriminação) e b (parâmetro de dificuldade)
+  - Prova (Exam) - entidade da prova; contém uma coleção de questões; pode ser aplicada a um candidato para indicar sua pontuação
+  - Acervo de Questões (QuestionLibrary) - entidade da coleção de questões disponíveis; contém uma coleção de questões; é gerada a partir de um arquivo com os parâmetros a e b das questões
+  - TRI - classe estática de entrada que contém método estático para indicar a possibilidade de um candidato/aluno acertar uma questão com base nos parâmetros theta (do candidato/aluno), a (da questão) e b (da questão)
