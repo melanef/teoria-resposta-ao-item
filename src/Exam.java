@@ -40,7 +40,7 @@ public class Exam
         }
     }
                                    
-    public int tryCandidate(Candidate candidate)
+    public double tryCandidate(Candidate candidate)
     {
         int score = 0;
         
@@ -53,6 +53,6 @@ public class Exam
             }
         }
         
-        return score;
+        return score / this.questions_quantity;
     }
 }
