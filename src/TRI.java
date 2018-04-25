@@ -6,7 +6,7 @@ public class TRI {
 
     public static double chance(double theta, double a, double b)
     {
-        return (Math.pow(Math.E, a * (theta - b)) / (1.0 + Math.pow(Math.E, (a * (theta - bi)))));
+        return (Math.pow(Math.E, a * (theta - b)) / (1.0 + Math.pow(Math.E, (a * (theta - b)))));
     }
 	
     public static void main(String [] args)
