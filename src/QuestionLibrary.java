@@ -28,6 +28,7 @@ public class QuestionLibrary
 
             String line;
             String [] parts;
+            int id = 0;
             while ((line = reader.readLine()) != null) {
                 if (line.matches(QuestionLibrary.PATTERN)) {
                     parts = line.split(QuestionLibrary.SEPARATOR);
@@ -35,7 +36,7 @@ public class QuestionLibrary
                     Double a = new Double(parts[0]);
                     Double b = new Double(parts[1]);
 
-                    newLibrary.add(new Question(a.doubleValue(), b.doubleValue()));
+                    newLibrary.add(new Question(id++, a.doubleValue(), b.doubleValue()));
                 }
             }
         }
@@ -68,5 +69,15 @@ public class QuestionLibrary
     public void add(Question question)
     {
         this.library.add(question);
+    }
+
+    public ArrayList<Question> getQuestions()
+    {
+        ArrayList<Question> cloneList = new ArrayList<Question>(this.library.size());
+        for (int i = 0; i < this.library.size(); i++) {
+            cloneList.add(this.getQuestion(i));
+        }
+
+        return cloneList;
     }
 }

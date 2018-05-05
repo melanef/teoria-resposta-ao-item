@@ -2,14 +2,21 @@ import java.lang.Cloneable;
 
 public class Question implements Cloneable
 {
+    protected int id;
 	protected double a;
 	protected double b;
 
-	public Question(double a, double b)
+	public Question(int id, double a, double b)
 	{
+        this.id = id;
 		this.a = a;
 		this.b = b;
 	}
+
+    public int getId()
+    {
+        return this.id;
+    }
 
 	public double getA()
 	{
@@ -25,6 +32,11 @@ public class Question implements Cloneable
     {
         double chanceCandidate1 = TRI.chance(candidate1.getTheta(), this.getA(), this.getB());
         double chanceCandidate2 = TRI.chance(candidate2.getTheta(), this.getA(), this.getB());
+
+        /*
+        System.out.println("Candidate 1 chance: " + chanceCandidate1);
+        System.out.println("Candidate 2 chance: " + chanceCandidate2);
+        */
 
         return chanceCandidate1 - chanceCandidate2;
     }
