@@ -3,10 +3,7 @@ Projeto Acadêmico de Introdução à Estatística sobre Teoria de Resposta ao I
 
 ## To Do List
 
-- Compilar
-  - Sério, não compilei ainda. Acredito que vá dar mil erros. Então se alguém puder compilar, corrigir e colocar aqui, seria top.
-  - Até aqui, o código não faz nada objetivamente. Então talvez seja legal fazer o main imprimir o score dos candidatos para as provas criadas, que tal?
-
+- Parte 1
   - Intervalo de confianca
 - Parte 2
   - Estimador Pontual - Alunos
