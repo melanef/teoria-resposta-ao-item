@@ -21,7 +21,7 @@ public class Question implements Cloneable
 		return this.b;
 	}
 
-    public double getCandidatesChance(Candidate candidate1, Candidate candidate2)
+    public double getCandidatesChanceDifference(Candidate candidate1, Candidate candidate2)
     {
         double chanceCandidate1 = TRI.chance(candidate1.getTheta(), this.getA(), this.getB());
         double chanceCandidate2 = TRI.chance(candidate2.getTheta(), this.getA(), this.getB());

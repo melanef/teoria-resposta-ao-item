@@ -43,16 +43,20 @@ public class Exam
 
     public double tryCandidate(Candidate candidate)
     {
-        int score = 0;
+        double score = 0;
 
         for (int i = 0; i < this.questions_quantity; i++) {
             Question current = this.questions.get(i);
             double chance = TRI.chance(candidate.getTheta(), current.getA(), current.getB());
+            //System.out.println("Chance: " + chance);
             double event = ThreadLocalRandom.current().nextDouble(0.0, 1.0);
+            //System.out.println("Event: " + event);
             if (event <= chance) {
                 score++;
             }
         }
+
+        //System.out.println("Score: " + score);
 
         return score / this.questions_quantity;
     }
