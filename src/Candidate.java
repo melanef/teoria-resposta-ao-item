@@ -6,8 +6,8 @@ public class Candidate
     {
         this.theta = theta;
     }
-    
-    public getTheta()
+
+    public double getTheta()
     {
         return this.theta;
     }
