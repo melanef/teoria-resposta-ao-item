@@ -3,15 +3,11 @@ Projeto Acadêmico de Introdução à Estatística sobre Teoria de Resposta ao I
 
 ## To Do List
 
-- Parte 1
-  - Intervalo de confianca
-    - Pelo que entendi, o intervalo de confiança consiste em aplicar uma prova muitas vezes para um aluno e pegar o menor intervalo de score's cuja frequência somada chegue aos 90%, procede, será? Feito isso, teremos os limites inferior e superior do intervalo de score desse aluno
 - Parte 2
   - Estimador Pontual - Alunos
   - Selecionando o melhor aluno - Habilidade do Aluno
-  - Intervalo de confian ̧ca - Habilidade do Aluno
+  - Intervalo de confiança - Habilidade do Aluno
   - Intervalo de confiança - t-student
-- Relatório
 
 ## O que foi feito
 
@@ -26,3 +22,5 @@ Projeto Acadêmico de Introdução à Estatística sobre Teoria de Resposta ao I
   - Parte 1
     - Selecionando o melhor aluno
     - Selecionando a melhor prova
+    - Intervalo de confiança
+    - Relatório
