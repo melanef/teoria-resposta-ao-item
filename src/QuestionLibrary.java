@@ -7,18 +7,61 @@ import java.lang.Integer;
 import java.lang.String;
 import java.util.ArrayList;
 
+/**
+ * Repositório de questões.
+ * O repositório é construido através de um arquivo que contém os dados de todas
+ * as questões.
+ *
+ * A classe espera que o arquivo seja formatado da seguinte maneira:
+ * Cada linha representa uma questão e contém dois dados numéricos decimais (
+ * separados por ponto) que correspondem aos parâmetros de dificuldade da questão.
+ *
+ * Cada linha lida do arquivo é interpretada e os dados extraídos são usados para
+ * criar nova instância da classe Question (que representa a Questão). A nova
+ * instância é depositada na lista de questões (o repositório propriamente dito
+ * --implementado através de uma ArrayList).
+ */
 public class QuestionLibrary
 {
+    /**
+     * Constante: PATTERN (padrão) -- indica o padrão de esperado erm cada linha
+     * do arquivo.
+     */
     public static final String PATTERN = "[0-9\\.]+ [0-9\\.]+";
+
+    /**
+     * Constante: SEPARATOR (separador) -- caractere usado para separar os valores
+     * nas linhas do arquivo.
+     */
     public static final String SEPARATOR = " ";
 
+    /**
+     * Propriedade protegida: ArrayList<Question> library -- lista de questões.
+     */
     protected ArrayList<Question> library;
 
+    /**
+     * Construtor protegido. A operação de construção do objeto da classe deve
+     * ocorrer através do método createFromFile (que implementa uma factory).
+     * Cria uma instância de ArrayList para Question.
+     *
+     * @return  QuestionLibrary
+     */
     protected QuestionLibrary()
     {
         this.library = new ArrayList<Question>();
     }
 
+    /**
+     * Método estático. Factory usada para criação de instâncias da classe.
+     * Recebe um caminho de arquivo como parâmetro, abre o arquivo para leitura,
+     * lê linha-a-linha, instancia objetos da classe Question e os armazena na
+     * library.
+     *
+     * @param   String  filepath    Caminho do arquivo a ser usado na construção
+     *
+     * @return  QuestionLibrary
+     */
     public static QuestionLibrary createFromFile(String filepath)
     {
         QuestionLibrary newLibrary = new QuestionLibrary();
@@ -50,27 +93,61 @@ public class QuestionLibrary
         return newLibrary;
     }
 
+    /**
+     * Método getter para uma questão da lista indicada pelo seu ID.
+     *
+     * @param   int     id  ID numérico (índice) da questão a ser obtida
+     *
+     * @return  Question
+     */
     public Question getQuestion(int id)
     {
         Question question = (Question) this.library.get(id);
         return question.getClone();
     }
 
+    /**
+     * Sobrecarga do método getQuestion usando a classe Integer como parâmetro
+     * ao invés do primitivo correspondente.
+     *
+     * @param   Integer     id  ID numérico (índice) da questão a ser obtida
+     *
+     * @return  Question
+     */
     public Question getQuestion(Integer id)
     {
         return this.getQuestion(id.intValue());
     }
 
+    /**
+     * Proxy para o método size da library. Retorna o tamanho do repositório (a
+     * quantidade de questões disponíveis).
+     *
+     * @return  int
+     */
     public int size()
     {
         return this.library.size();
     }
 
+    /**
+     * Proxy para o método add da library. Adiciona o objeto passado como
+     * parâmetro à library.
+     *
+     * @param   Question    question    Questão a ser inclusa na lista
+     *
+     * @return  void
+     */
     public void add(Question question)
     {
         this.library.add(question);
     }
 
+    /**
+     * Getter seguro (usando clonagem) para a lista de questões.
+     *
+     * @return  ArrayList<Question>
+     */
     public ArrayList<Question> getQuestions()
     {
         ArrayList<Question> cloneList = new ArrayList<Question>(this.library.size());
