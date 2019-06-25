@@ -2,9 +2,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.Math;
 import java.lang.String;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -23,6 +23,12 @@ public class TRI {
     public static final String QUESTIONS_PATH = "../data/questoes.txt";
 
     /**
+     * Constante: RESULTS_PATH -- indica o endereço do arquivo que contém os
+     * resultados dos alunos a cada questão (1 = acerto; 0 = erro)
+     */
+    public static final String RESULTS_PATH = "../data/respostas.txt";
+
+    /**
      * Constante: I1_OUTPUT_PATH -- indica o endereço do arquivo de saída que
      * deve ser gerado para o item 1.
      */
@@ -38,7 +44,25 @@ public class TRI {
      * Constante: I3_OUTPUT_PATH -- indica o endereço do arquivo de saída que
      * deve ser gerado para o item 3.
      */
-    public static final String I3_OUTPUT_PATH = "../outputs/I3.txt";
+    public static final String I3_OUTPUT_PATH = "../outputs/II1.txt";
+
+    /**
+     * Constante: I4_OUTPUT_PATH -- indica o endereço do arquivo de saída que
+     * deve ser gerado para o item 4.
+     */
+    public static final String I4_OUTPUT_PATH = "../outputs/II2.txt";
+
+    /**
+     * Constante: I5_OUTPUT_PATH -- indica o endereço do arquivo de saída que
+     * deve ser gerado para o item 5.
+     */
+    public static final String I5_OUTPUT_PATH = "../outputs/II3.txt";
+
+    /**
+     * Constante: I6_OUTPUT_PATH -- indica o endereço do arquivo de saída que
+     * deve ser gerado para o item 5.
+     */
+    public static final String I6_OUTPUT_PATH = "../outputs/II4.txt";
 
     /**
      * Constante: TRIES -- indica a quantidade de simulações devem ser executadas
@@ -47,9 +71,23 @@ public class TRI {
     public static final double TRIES = 1000000;
 
     /**
-     * Constante: TRUST_DEGREE -- indica o grau de confiança exigido para o item 3.
+     * Constante: TRUST_DEGREE -- indica o grau de confiança exigido para os itens 5 e 6.
      */
     public static final double TRUST_DEGREE = 0.1;
+
+    /**
+     * Método estático. Invoca método a seguir, facilitando a consulta dos parâmetros
+     * da questão recebida como segundo parâmetro.
+     *
+     * @param   double      theta       Parâmetro de habilidade do candidato
+     * @param   Question    question    Questão avaliada
+     *
+     * @return  double
+     */
+    public static double chance(double theta, Question question)
+    {
+        return TRI.chance(theta, question.getA(), question.getB());
+    }
 
     /**
      * Método estático. Cálculo da probabilidade de um candidato acertar uma
@@ -69,9 +107,11 @@ public class TRI {
 
     /**
      * Método estático. Ponto de entrada do programa. Aqui instanciamos nosso
-     * repositório de questões indicando o arquivo de questões a ser usado,
-     * instanciamos também nossos 5 candidatos amostrais para a parte 1 e,
-     * finalmente, invocamos os métodos estáticos de cada item.
+     * repositório de questões indicando o arquivo de questões a ser usado, bem
+     * como nossa coleção de resultados dos candidatos amostrais, indicando o
+     * arquivo de resultados a ser usado, instanciamos também nossos 5
+     * candidatos modelo e, finalmente, invocamos os métodos estáticos de cada
+     * item.
      *
      * @param   String[]    args    Parâmetro padrão de argumentos da linha de
      * comando. Descartado nesse caso.
@@ -80,7 +120,8 @@ public class TRI {
      */
     public static void main(String [] args)
     {
-        QuestionLibrary library = QuestionLibrary.createFromFile(QUESTIONS_PATH);
+        QuestionLibrary library = QuestionLibrary.createFromFile(TRI.QUESTIONS_PATH);
+
         Candidate [] candidates = new Candidate[5];
         candidates[0] = new Candidate(-1.0);
         candidates[1] = new Candidate(-0.5);
@@ -90,7 +131,12 @@ public class TRI {
 
         TRI.I1(candidates, library);
         TRI.I2(candidates, library);
-        TRI.I3(candidates, library);
+
+        List<CandidateResultSet> results = CandidateResultSet.createFromFile(TRI.RESULTS_PATH);
+
+        TRI.I3(results, library);
+
+        TRI.I6(candidates, library);
     }
 
     /**
@@ -196,7 +242,7 @@ public class TRI {
         try {
             PrintWriter writer = new PrintWriter(I2_OUTPUT_PATH, "UTF-8");
 
-            ArrayList<Question> questions = library.getQuestions();
+            List<Question> questions = library.getQuestions();
             Collections.sort(questions, new QuestionComparator(candidates[4], candidates[3]));
 
             Exam [] exams = new Exam[3];
@@ -248,6 +294,75 @@ public class TRI {
 
     /**
      * Item 3.
+     * Para cada um dos resultados lidos previamente, executamos o seguinte:
+     *   Aplicamos o método do Estimador de Máxima Verossimilhança, com uma
+     *   abordagem computacional que abre mão de manipulações algébricas, porém
+     *   beneficia-se de análise numérica. O método da bissecção foi o escolhido
+     *   para a identificação de possíveis raízes da derivada da função log-
+     *   likelihood. Em vez de usarmos derivadas com regras de derivação,
+     *   aplicamos a definição formal em função de limites para tal.
+     *
+     *   O procedimento prático consiste em:
+     *     Definimos duas fronteiras e um ponto médio entre elas, e calculamos a
+     *     derivada da função log-likelihood nestes três pontos. Comparando os
+     *     pontos dois-a-dois (limite inferior com ponto médio, e ponto médio
+     *     com limite superior), podemos identificar se houve inversão no sinal
+     *     da derivada (o que indica inversão de sentido), um forte indício de
+     *     que há um ponto de máximo entre estes. Atualizamos os pontos de
+     *     limite e repetimos o procedimento até que o valor encontrado para a
+     *     derivada da função log-likelihood no ponto médio seja próxima o
+     *     bastante de zero.
+     *
+     * @param List<CandidateResultSet>  results Coleção de resultados
+     * @param QuestionLibrary           library Repositório de questões criado
+     *
+     * @return void
+     */
+    protected static void I3(List<CandidateResultSet> results, QuestionLibrary library)
+    {
+        try {
+            PrintWriter writer = new PrintWriter(I3_OUTPUT_PATH, "UTF-8");
+
+            Iterator<CandidateResultSet> candidateIterator = results.iterator();
+            while (candidateIterator.hasNext()) {
+                CandidateResultSet current = candidateIterator.next();
+                writer.println(current.estimate(library));
+            }
+
+            writer.close();
+        }
+        catch (IOException exception) {
+            System.out.println("Erro na escrita do arquivo de saída I3: " + exception.getMessage());
+        }
+        catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
+
+    /**
+     * Item 4.
+     *
+     *
+     * @return void
+     */
+    protected static void I4()
+    {
+
+    }
+
+    /**
+     * Item 5.
+     *
+     *
+     * @return void
+     */
+    protected static void I5()
+    {
+
+    }
+
+    /**
+     * Item 6.
      * Criamos 4 provas, com 10, 20, 50 e 100 questões escolhidas aleatoriamente
      * do repositório. Para cada uma das 4 provas, executamos o seguinte:
      *   Para cada um dos 5 candidatos, executamos o seguinte:
@@ -268,10 +383,10 @@ public class TRI {
      *
      * @return  void
      */
-    protected static void I3(Candidate [] candidates, QuestionLibrary library)
+    protected static void I6(Candidate [] candidates, QuestionLibrary library)
     {
         try {
-            PrintWriter writer = new PrintWriter(I3_OUTPUT_PATH, "UTF-8");
+            PrintWriter writer = new PrintWriter(I6_OUTPUT_PATH, "UTF-8");
 
             Exam [] exams = new Exam[4];
             exams[0] = new Exam(10, library);
