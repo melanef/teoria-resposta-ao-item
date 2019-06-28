@@ -108,4 +108,9 @@ public class Question implements Cloneable
             return null;
         }
     }
+    
+    public String toString()
+    {
+        return "Question - A: " + this.getA() + " - B: " + this.getB();
+    }
 }

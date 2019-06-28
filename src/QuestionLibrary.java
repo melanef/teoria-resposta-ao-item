@@ -24,18 +24,6 @@ import java.util.ArrayList;
 public class QuestionLibrary
 {
     /**
-     * Constante: PATTERN (padrão) -- indica o padrão de esperado erm cada linha
-     * do arquivo.
-     */
-    public static final String PATTERN = "[0-9\\.]+ [0-9\\.]+";
-
-    /**
-     * Constante: SEPARATOR (separador) -- caractere usado para separar os valores
-     * nas linhas do arquivo.
-     */
-    public static final String SEPARATOR = " ";
-
-    /**
      * Propriedade protegida: ArrayList<Question> library -- lista de questões.
      */
     protected ArrayList<Question> library;
@@ -73,11 +61,11 @@ public class QuestionLibrary
             String [] parts;
             int id = 0;
             while ((line = reader.readLine()) != null) {
-                if (line.matches(QuestionLibrary.PATTERN)) {
-                    parts = line.split(QuestionLibrary.SEPARATOR);
+                if (line.matches(TRI.PATTERN)) {
+                    parts = line.split(TRI.SEPARATOR);
 
-                    Double a = new Double(parts[0]);
-                    Double b = new Double(parts[1]);
+                    Double a = Double.valueOf(parts[0]);
+                    Double b = Double.valueOf(parts[1]);
 
                     newLibrary.add(new Question(id++, a.doubleValue(), b.doubleValue()));
                 }

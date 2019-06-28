@@ -73,14 +73,14 @@ public class Exam
     {
         if (this.questions.size() == this.questions_quantity) {
             for (int i = 0; i < this.questions_quantity; i++) {
-                this.questions.add(library.getQuestion(new Integer(i)));
+                this.questions.add(library.getQuestion(Integer.valueOf(i)));
             }
         }
 
         ArrayList<Integer> question_ids = new ArrayList<Integer>(this.questions_quantity);
 
         while (this.questions.size() < this.questions_quantity) {
-            Integer current_question_id = new Integer(
+            Integer current_question_id = Integer.valueOf(
                 ThreadLocalRandom.current().nextInt(0, library.size())
             );
 
@@ -105,6 +105,38 @@ public class Exam
             this.questions.add(question.getClone());
         }
     }
+    
+    /**
+     * Método público para incluir uma questão na prova.
+     * Usado para popular uma prova manualmente.
+     *
+     * @param   Question    question    Questão a ser inclusa na prova
+     *
+     * @return  void
+     */
+    public void addQuestion(int i, Question question)
+    {
+        if (this.questions.size() < this.questions_quantity) {
+            this.questions.add(i, question.getClone());
+        }
+    }
+    
+    /**
+     * Método público para obter uma questão da prova.
+     * Usado para recuperar as questões da prova individualmente.
+     * 
+     * @param   int     i   Índice da questão a ser buscada
+     * 
+     * @return  Question
+     */
+    public Question getQuestion(int i)
+    {
+        if (this.questions.size() > i) {
+            return this.questions.get(i).getClone();
+        }
+        
+        return null;
+    }
 
     /**
      * Método getter para a quantidade de questões prevista para a prova.
@@ -117,32 +149,52 @@ public class Exam
     }
 
     /**
-     * Método público para avaliar um dado candidato.
+     * Método público para obter os resultados de um dado candidato.
      * Aplica todas as questões da prova para o candidato. Cada questão fornece,
      * para aquele candidato, uma chance de acerto (através do cálculo de
      * probabilidade da classe TRI). Esta chance é comparada com um número
      * aleatório entre 0 e 1. Se a chance for maior do que o número aleatório
      * obtido, consideramos que o candidato acertou a questão, e portanto,
-     * incrementamos sua pontuação. O resultado da avaliação é a relação entre a
-     * pontuação e a quantidade de questões da prova.
+     * indicamos o acerto no objeto de resultado. O objeto do resultado é o 
+     * retorno.
+     * 
+     * @param   Candidate   candidate   Candidato a ser avaliado
+     *
+     * @return  ResultSet
+     */
+    public ResultSet tryCandidate(Candidate candidate)
+    {
+        ResultSet result = new ResultSet(this.questions_quantity);
+        
+        for (int i = 0; i < this.questions_quantity; i++) {
+            Question current = this.questions.get(i);
+            double chance = TRI.chance(candidate.getTheta(), current.getA(), current.getB());
+            double event = ThreadLocalRandom.current().nextDouble(0.0, 1.0);
+            
+            boolean questionResult = false;
+            if (event <= chance) {
+                questionResult = true;
+            }
+            
+            result.add(i, Boolean.valueOf(questionResult));
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Método público para avaliar um dado candidato.
+     * Invocamos o método acima e conta os acertos. A quantidade de acertos 
+     * então é dividida pela quantidade total de questões para a definição do 
+     * score.
      *
      * @param   Candidate   candidate   Candidato a ser avaliado
      *
      * @return  double
      */
-    public double tryCandidate(Candidate candidate)
+    public double getScore(Candidate candidate)
     {
-        double score = 0;
-
-        for (int i = 0; i < this.questions_quantity; i++) {
-            Question current = this.questions.get(i);
-            double chance = TRI.chance(candidate.getTheta(), current.getA(), current.getB());
-            double event = ThreadLocalRandom.current().nextDouble(0.0, 1.0);
-            if (event <= chance) {
-                score++;
-            }
-        }
-
-        return score / this.questions_quantity;
+        ResultSet result = this.tryCandidate(candidate);
+        return result.getScore() / this.questions_quantity;
     }
 }
