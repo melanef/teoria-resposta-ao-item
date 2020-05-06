@@ -3,9 +3,6 @@ Projeto Acadêmico de Introdução à Estatística sobre Teoria de Resposta ao I
 
 ## To Do List
 
-- Parte 2
-  - Selecionando o melhor aluno - Habilidade do Aluno
-  - Intervalo de confiança - Habilidade do Aluno
 
 ## O que foi feito
 
@@ -25,3 +22,5 @@ Projeto Acadêmico de Introdução à Estatística sobre Teoria de Resposta ao I
   - Parte 2
     - Estimador Pontual - Alunos
     - Intervalo de confiança
+    - Selecionando o melhor aluno - Habilidade do Aluno
+    - Intervalo de confiança - Habilidade do Aluno
